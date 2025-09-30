@@ -5,7 +5,7 @@ import { Popular } from '@/widgets/Popular/Popular'
 
 export default function Home() {
 	return (
-		<main className="w-screen">
+		<main className="w-screen overflow-x-hidden">
 			<Header />
 			<Hero />
 			<Popular />

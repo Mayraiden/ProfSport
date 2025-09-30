@@ -1,13 +1,15 @@
-import { DropDownButton } from '@/shared/ui/DropDownButton'
-import Image from 'next/image'
+import { Header } from '@/widgets/Header/Header'
+import { Hero } from '@/widgets/Hero/Hero'
+import { Hits } from '@/widgets/Hits/Hits'
+import { Popular } from '@/widgets/Popular/Popular'
 
 export default function Home() {
 	return (
-		<main>
-			<nav className="px-10 py-5 flex">
-				<Image src="/logo.svg" width={40} height={40} alt="логотип профспорт" />
-				<DropDownButton />
-			</nav>
+		<main className="w-screen">
+			<Header />
+			<Hero />
+			<Popular />
+			<Hits />
 		</main>
 	)
 }

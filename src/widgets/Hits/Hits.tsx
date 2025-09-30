@@ -10,7 +10,7 @@ import 'swiper/css/pagination'
 
 export const Hits = () => {
 	return (
-		<section className="w-full h-[80vh] px-10 pt-15">
+		<section className="w-full h-screen px-10 pt-15">
 			<h3 className="text-3xl font-bold mb-4">Хиты продаж</h3>
 			<Swiper
 				modules={[Navigation]}

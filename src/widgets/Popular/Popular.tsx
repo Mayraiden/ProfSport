@@ -11,7 +11,7 @@ export const Popular = () => {
 					return (
 						<li
 							key={item.id}
-							className="h-59 pb-5 flex bg-center bg-cover"
+							className="h-59 pb-5 flex bg-center bg-[length:102%] hover:bg-size-[305] transition-[background-size]"
 							style={{ backgroundImage: `url('${item.image}')` }}
 						>
 							<Link

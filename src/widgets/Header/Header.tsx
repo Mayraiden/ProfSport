@@ -25,7 +25,7 @@ export const Header = () => {
 				className="w-full h-full px-2 bg-gray/20 rounded-sm outline-none focus:bg-gray/30"
 			/>
 			<Link
-				href="/special"
+				href="/favorites"
 				className="w-10 h-10 flex items-center justify-center bg-gray/20 hover:bg-gray/30 transition-colors duration-200"
 			>
 				<HeartStraightIcon size={20} weight="fill" />

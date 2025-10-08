@@ -1,0 +1,17 @@
+/* Кастомные чекбоксы для фильтров */
+.custom-checkbox {
+	appearance: none;
+	width: 16px;
+	height: 16px;
+	border: 2px solid #d1d5db;
+	border-radius: 4px;
+	background: white;
+	cursor: pointer;
+	position: relative;
+	transition: all 0.2s ease;
+}
+
+.custom-checkbox:checked {
+	background: var(--color-burgundy);
+	border-color: var(--color-burgundy);
+}

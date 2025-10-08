@@ -4,7 +4,7 @@ import { TelegramLogoIcon } from '@phosphor-icons/react/ssr'
 
 export const Footer = () => {
 	return (
-		<footer className="w-screen px-10 flex flex-col bg-black text-white">
+		<footer className="w-screen px-10 mt-auto flex flex-col bg-black text-white">
 			<div className="flex pt-10 pb-10 border-b border-white/30">
 				<div className="w-100 mr-10">
 					<Link href="/" className="h-10 flex items-center gap-2">

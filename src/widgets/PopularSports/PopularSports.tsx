@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Sports } from '@/shared/helpers/typesOfSport'
 
-export const Popular = () => {
+export const PopularSports = () => {
 	return (
 		<section className="w-screen px-10 pt-15">
 			<h2 className="text-3xl font-bold mb-5">Популярные виды спорта</h2>

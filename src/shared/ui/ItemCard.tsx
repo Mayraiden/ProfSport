@@ -7,7 +7,7 @@ import { FavoriteButton } from './FavoriteButton'
 
 export const ItemCard = () => {
 	return (
-		<div className="w-59 h-90 flex flex-col bg-white shadow-md">
+		<div className="w-59 min-w-50 flex flex-col bg-white shadow-md">
 			<div>
 				<Image
 					className="w-full"

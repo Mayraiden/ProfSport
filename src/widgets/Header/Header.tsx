@@ -12,7 +12,7 @@ import {
 
 export const Header = () => {
 	return (
-		<nav className="h-20 w-full mx-auto px-10 py-5 flex gap-5 items-center">
+		<nav className="h-20 w-full mx-auto px-10 py-5 flex justify-between gap-5 items-center">
 			<Link href="/" className="h-10 flex gap-2">
 				<Image src="/logo.svg" width={40} height={40} alt="логотип профспорт" />
 				<span className="text-4xl font-bold">ПРОФСПОРТ</span>

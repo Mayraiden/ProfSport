@@ -19,66 +19,41 @@ export const Suggesting = ({ title }: ISuggestingProps) => {
 	const goToPrev = () => swiperRef?.slidePrev()
 	const goToNext = () => swiperRef?.slideNext()
 
+	const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+	const isLoop = items.length > 5
+
 	return (
 		<section className="w-full pt-15 relative">
-			<h3 className="pl-10 text-3xl font-bold mb-4">{title}</h3>
+			<h3 className="pl-20 text-3xl font-bold mb-4">{title}</h3>
 			<div className="w-full h-fit py-4">
 				<Swiper
+					key={items.length}
 					onSwiper={setSwiperRef}
-					spaceBetween={10}
+					spaceBetween={12}
 					slidesPerView={5}
-					loop={true}
+					loop={isLoop}
+					centeredSlides={false}
+					loopAdditionalSlides={2}
+					watchSlidesProgress
 					navigation
-					style={{ overflow: 'visible' }}
+					style={{
+						overflow: 'visible',
+						paddingLeft: '80px',
+						paddingRight: '80px',
+					}}
+					breakpoints={{
+						640: { slidesPerView: 2 },
+						768: { slidesPerView: 3 },
+						1024: { slidesPerView: 4 },
+						1280: { slidesPerView: 5 },
+						1440: { slidesPerView: 5 },
+					}}
 				>
-					<SwiperSlide className="!w-auto">
-						<ItemCard />
-					</SwiperSlide>
-					<SwiperSlide className="!w-auto">
-						<ItemCard />
-					</SwiperSlide>
-					<SwiperSlide className="!w-auto">
-						<ItemCard />
-					</SwiperSlide>
-					<SwiperSlide className="!w-auto">
-						<ItemCard />
-					</SwiperSlide>
-					<SwiperSlide className="!w-auto">
-						<ItemCard />
-					</SwiperSlide>
-					<SwiperSlide className="!w-auto">
-						<ItemCard />
-					</SwiperSlide>
-					<SwiperSlide className="!w-auto">
-						<ItemCard />
-					</SwiperSlide>
-					<SwiperSlide className="!w-auto">
-						<ItemCard />
-					</SwiperSlide>
-					<SwiperSlide className="!w-auto">
-						<ItemCard />
-					</SwiperSlide>
-					<SwiperSlide className="!w-auto">
-						<ItemCard />
-					</SwiperSlide>
-					<SwiperSlide className="!w-auto">
-						<ItemCard />
-					</SwiperSlide>
-					<SwiperSlide className="!w-auto">
-						<ItemCard />
-					</SwiperSlide>
-					<SwiperSlide className="!w-auto">
-						<ItemCard />
-					</SwiperSlide>
-					<SwiperSlide className="!w-auto">
-						<ItemCard />
-					</SwiperSlide>
-					<SwiperSlide className="!w-auto">
-						<ItemCard />
-					</SwiperSlide>
-					<SwiperSlide className="!w-auto">
-						<ItemCard />
-					</SwiperSlide>
+					{items.map((_, index) => (
+						<SwiperSlide key={index} className="max-w-59">
+							<ItemCard />
+						</SwiperSlide>
+					))}
 				</Swiper>
 			</div>
 

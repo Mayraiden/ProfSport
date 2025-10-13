@@ -40,7 +40,7 @@ export const IFilterRange = ({
 					value={value.min || ''}
 					onChange={handleMinChange}
 					placeholder="0"
-					className="w-full px-3 py-2 border border-gray-300 rounded-l-md bg-gray/20 focus:outline-none focus:ring-1 focus:ring-burgundy focus:border-transparent"
+					className="w-full px-3 py-2 border border-gray-300 rounded-l-md bg-gray/20 focus:outline-none focus:border-transparent"
 				/>
 				<input
 					type="text"
@@ -52,7 +52,7 @@ export const IFilterRange = ({
 					value={value.max || ''}
 					onChange={handleMaxChange}
 					placeholder="0"
-					className="w-full px-3 py-2 border border-gray-300 rounded-r-md bg-gray/20 focus:outline-none focus:ring-1 focus:ring-burgundy focus:border-transparent"
+					className="w-full px-3 py-2 border border-gray-300 rounded-r-md bg-gray/20 focus:outline-none focus:border-transparent"
 				/>
 			</div>
 		</div>

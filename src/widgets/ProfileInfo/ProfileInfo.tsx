@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { IInput } from '@/shared/ui/IInput'
 import {
 	TrashIcon,
 	SignOutIcon,
@@ -89,75 +88,89 @@ export const ProfileInfo = () => {
 
 	return (
 		<div className="w-full">
-			<h2 className="text-lg font-bold mb-5">Профиль</h2>
-			<div className="w-full pt-5 pl-5 pb-5 bg-white">
-				<form
-					className="flex flex-col gap-4"
-					onSubmit={(e) => e.preventDefault()}
-				>
-					{/* Имя */}
-					<div className="flex flex-col gap-1">
-						<label className="text-sm text-gray-500">Имя</label>
-						<IInput
-							value={userData.name}
-							onChange={(e) => handleInputChange('name', e.target.value)}
-							placeholder="Введите ваше имя"
-							disabled={!isEditMode}
-							className={errors.name ? 'border-red-500' : ''}
-						/>
-						{errors.name && (
-							<span className="text-xs text-red-500">{errors.name}</span>
-						)}
-					</div>
+			{/* Заголовок страницы */}
+			<div className="mb-5">
+				<h1 className="text-3xl font-bold text-black">Профиль</h1>
+			</div>
 
-					{/* Телефон */}
-					<div className="flex flex-col gap-1">
-						<label className="text-sm text-gray-500">Телефон</label>
-						<IInput
-							value={userData.phone}
-							onChange={(e) => handleInputChange('phone', e.target.value)}
-							placeholder="+7 (999) 000-00-00"
-							disabled={!isEditMode}
-							className={errors.phone ? 'border-red-500' : ''}
-						/>
-						{errors.phone && (
-							<span className="text-xs text-red-500">{errors.phone}</span>
-						)}
-					</div>
-
-					{/* Email */}
-					<div className="flex flex-col gap-1">
-						<label className="text-sm text-gray-500">Email</label>
-						<IInput
-							type="email"
-							value={userData.email}
-							onChange={(e) => handleInputChange('email', e.target.value)}
-							placeholder="your.email@example.com"
-							disabled={!isEditMode}
-							className={errors.email ? 'border-red-500' : ''}
-						/>
-						{errors.email && (
-							<span className="text-xs text-red-500">{errors.email}</span>
-						)}
-					</div>
-
-					{/* Пароль */}
-					<div className="flex flex-col gap-1">
-						<label className="text-sm text-gray-500">Пароль</label>
-						<div className="relative">
-							<IInput
-								type={showPassword ? 'text' : 'password'}
-								value={isEditMode ? userData.password : '**********'}
-								onChange={(e) => handleInputChange('password', e.target.value)}
-								placeholder="Введите пароль"
+			{/* Форма с данными пользователя */}
+			<div className="w-full bg-white rounded-md p-10">
+				<div className="max-w-4xl">
+					{/* Поля ввода */}
+					<div className="max-w-[460px] space-y-3 mb-5">
+						{/* Имя */}
+						<div className="relative h-13 bg-[#F0F4F8] rounded-md">
+							<label className="absolute top-2 left-3 text-xs text-[#A0A4A8] font-normal">
+								Имя
+							</label>
+							<input
+								type="text"
+								value={userData.name}
+								onChange={(e) => handleInputChange('name', e.target.value)}
 								disabled={!isEditMode}
-								className="pr-10"
+								className="absolute top-6 left-3 right-3 bg-transparent text-base text-black outline-none disabled:cursor-not-allowed"
+								placeholder="Введите ваше имя"
+							/>
+						</div>
+
+						{/* Телефон */}
+						<div className="relative h-13 bg-[#F0F4F8] rounded-md">
+							<label className="absolute top-2 left-3 text-xs text-[#A0A4A8] font-normal">
+								Телефон
+							</label>
+							<input
+								type="tel"
+								value={userData.phone}
+								onChange={(e) => handleInputChange('phone', e.target.value)}
+								disabled={!isEditMode}
+								className="absolute top-6 left-3 right-3 bg-transparent text-base text-black outline-none disabled:cursor-not-allowed"
+								placeholder="+7 (999) 000-00-00"
+							/>
+						</div>
+
+						{/* Email */}
+						<div className="relative h-13 bg-[#F0F4F8] rounded-md">
+							<label className="absolute top-2 left-3 text-xs text-[#A0A4A8] font-normal">
+								Email
+							</label>
+							<input
+								type="email"
+								value={userData.email}
+								onChange={(e) => handleInputChange('email', e.target.value)}
+								disabled={isEditMode}
+								className={`absolute top-6 left-3 right-3 bg-transparent text-base outline-none disabled:cursor-not-allowed ${
+									isEditMode ? 'text-[#A0A4A8] opacity-50' : 'text-black'
+								}`}
+								placeholder="ваш.email@example.com"
+							/>
+						</div>
+
+						{/* Пароль */}
+						<div className="relative h-13 bg-[#F0F4F8] rounded-md">
+							<label className="absolute top-2 left-3 text-xs text-[#A0A4A8] font-normal">
+								Пароль
+							</label>
+							<input
+								type={showPassword ? 'text' : 'password'}
+								value={
+									isEditMode
+										? userData.password
+										: showPassword
+											? userData.password
+											: '**********'
+								}
+								onChange={(e) => handleInputChange('password', e.target.value)}
+								disabled={isEditMode}
+								className={`absolute top-6 left-3 right-20 bg-transparent text-base outline-none disabled:cursor-not-allowed ${
+									isEditMode ? 'text-[#A0A4A8] opacity-50' : 'text-black'
+								}`}
+								placeholder="Введите пароль"
 							/>
 							{!isEditMode && (
 								<button
 									type="button"
 									onClick={togglePasswordVisibility}
-									className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 text-sm"
+									className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-[#A0A4A8] hover:text-gray-700"
 								>
 									{showPassword ? 'скрыть' : 'показать'}
 								</button>
@@ -166,35 +179,43 @@ export const ProfileInfo = () => {
 					</div>
 
 					{/* Кнопки действий */}
-					<div className="flex items-center gap-4 mt-6">
+					<div className="flex justify-between items-end">
+						{/* Кнопка Редактировать/Сохранить */}
 						<button
 							type="button"
 							onClick={handleEditToggle}
-							className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200"
+							className={`w-40 h-12 px-6 py-4 flex items-center justify-center gap-2  rounded-md transition-colors duration-200 ${
+								isEditMode
+									? 'bg-[#2A7D5A] text-white hover:bg-[#1f5f47]'
+									: 'bg-[#193B7B] text-white hover:bg-[#1a4a8f]'
+							}`}
 						>
-							<NotePencilIcon size={16} />
+							<NotePencilIcon size={20} className="shrink-0" />
 							{isEditMode ? 'Сохранить' : 'Редактировать'}
 						</button>
 
-						<button
-							type="button"
-							onClick={handleLogout}
-							className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors duration-200"
-						>
-							<SignOutIcon size={16} />
-							Выйти из аккаунта
-						</button>
+						{/* Кнопки Выйти и Удалить */}
+						<div className="flex items-center gap-5">
+							<button
+								type="button"
+								onClick={handleLogout}
+								className="flex items-center gap-2 px-4 py-2 bg-[#F0F4F8] text-black rounded-md hover:bg-[#e8edf2] transition-colors duration-200"
+							>
+								<SignOutIcon size={16} />
+								Выйти из аккаунта
+							</button>
 
-						<button
-							type="button"
-							onClick={handleDeleteAccount}
-							className="flex items-center gap-2 text-red-500 hover:text-red-600 transition-colors duration-200"
-						>
-							<TrashIcon size={16} />
-							Удалить аккаунт
-						</button>
+							<button
+								type="button"
+								onClick={handleDeleteAccount}
+								className="flex items-center gap-2 px-4 py-2 bg-[#7B1931] text-white rounded-md hover:bg-[#6a1529] transition-colors duration-200"
+							>
+								<TrashIcon size={16} />
+								Удалить аккаунт
+							</button>
+						</div>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	)

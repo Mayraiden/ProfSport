@@ -3,7 +3,7 @@ import { Filters } from '../Filters/Filters'
 
 export const CatalogFeed = () => {
 	return (
-		<section className="w-screen pt-13 px-15 bg-light-blue">
+		<section className="w-screen pt-13 px-15 pb-5 bg-light-blue">
 			<div className="flex gap-4">
 				<Filters />
 				<div className="flex-1 flex flex-col gap-5">

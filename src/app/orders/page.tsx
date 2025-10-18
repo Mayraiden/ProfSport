@@ -1,20 +1,20 @@
 import { ProfileLayout } from '@/app/layouts/ProfileLayout'
 
-export default function Cart() {
+export default function Orders() {
 	return (
 		<ProfileLayout>
 			<div className="flex flex-col gap-5 pt-2.5">
 				{/* Заголовок страницы */}
 				<div className="flex flex-col gap-5">
 					<h1 className="text-2xl font-bold text-black leading-[0.875]">
-						Корзина
+						История заказов
 					</h1>
 				</div>
 
-				{/* Пустое состояние корзины */}
+				{/* Пустое состояние истории заказов */}
 				<div className="bg-white rounded-md p-5 flex flex-col items-center gap-5">
 					<h2 className="text-xl font-bold text-black leading-[1.05]">
-						Корзина пуста
+						У Вас пока нет заказов
 					</h2>
 					<p className="text-base text-black leading-[1.31] text-center">
 						Перейдите в каталог, чтобы добавить товары в корзину.

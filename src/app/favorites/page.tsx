@@ -1,7 +1,10 @@
-export default function Favorites() {
+import { Favorites } from '@/widgets/Favorites/Favorites'
+import { ProfileLayout } from '@/app/layouts/ProfileLayout'
+
+export default function FavoritesPage() {
 	return (
-		<div className="w-screen h-screen bg-black flex items-center justify-center">
-			<h1 className="text-4xl text-white">Привет, я страница избранного</h1>
-		</div>
+		<ProfileLayout>
+			<Favorites />
+		</ProfileLayout>
 	)
 }

@@ -9,8 +9,8 @@ import {
 
 export const IProfileSideBar = () => {
 	return (
-		<aside className="w-70 h-full bg-white">
-			<nav className="w-full h-full pt-5 px-3">
+		<aside className="sticky top-5 w-70 h-120 bg-white">
+			<nav className="w-full pt-5 px-3">
 				<ul className="w-full flex flex-col gap-3">
 					<li className="w-full">
 						<Link
@@ -24,7 +24,7 @@ export const IProfileSideBar = () => {
 					<li>
 						<Link
 							className="px-1 py-1 flex items-center gap-2 rounded-md hover:bg-gray/20 transition"
-							href={'/profile'}
+							href={'/favorites'}
 						>
 							<HeartIcon size={20} />
 							<span>Избранное</span>
@@ -33,7 +33,7 @@ export const IProfileSideBar = () => {
 					<li>
 						<Link
 							className="px-1 py-1 flex items-center gap-2 rounded-md hover:bg-gray/20 transition"
-							href={'/profile'}
+							href={'/cart'}
 						>
 							<ShoppingBagIcon size={20} />
 							<span>Корзина</span>
@@ -42,7 +42,7 @@ export const IProfileSideBar = () => {
 					<li>
 						<Link
 							className="px-1 py-1 flex items-center gap-2 rounded-md hover:bg-gray/20 transition"
-							href={'/profile'}
+							href={'/orders'}
 						>
 							<ClockClockwiseIcon size={20} />
 							<span>История заказов</span>

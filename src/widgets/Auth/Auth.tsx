@@ -38,7 +38,7 @@ export const Auth = () => {
 	return (
 		<div className="w-full max-w-md">
 			{/* Header */}
-			<div className="mb-8">
+			<div className="mb-4">
 				<h1 className="text-2xl font-bold text-black mb-2">
 					{mode === 'login' ? 'Вход в аккаунт' : 'Регистрация аккаунта'}
 				</h1>
@@ -51,35 +51,34 @@ export const Auth = () => {
 				) : (
 					<RegisterForm onSubmit={handleRegister} loading={loading} />
 				)}
-			</div>
-
-			{/* Footer */}
-			<div className="text-center mt-6">
-				<p className="text-sm text-black">
-					{mode === 'login' ? (
-						<>
-							Нет аккаунта?{' '}
-							<button
-								type="button"
-								onClick={() => setMode('register')}
-								className="text-blue hover:underline font-medium"
-							>
-								Зарегистрироваться
-							</button>
-						</>
-					) : (
-						<>
-							У Вас уже есть аккаунт?{' '}
-							<button
-								type="button"
-								onClick={() => setMode('login')}
-								className="text-blue hover:underline font-medium"
-							>
-								Войти
-							</button>
-						</>
-					)}
-				</p>
+				{/* Footer */}
+				<div className="text-center mt-6">
+					<p className="text-sm text-black">
+						{mode === 'login' ? (
+							<>
+								Нет аккаунта?{' '}
+								<button
+									type="button"
+									onClick={() => setMode('register')}
+									className="text-blue hover:underline font-medium"
+								>
+									Зарегистрироваться
+								</button>
+							</>
+						) : (
+							<>
+								У Вас уже есть аккаунт?{' '}
+								<button
+									type="button"
+									onClick={() => setMode('login')}
+									className="text-blue hover:underline font-medium"
+								>
+									Войти
+								</button>
+							</>
+						)}
+					</p>
+				</div>
 			</div>
 		</div>
 	)

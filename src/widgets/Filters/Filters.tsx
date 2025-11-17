@@ -1,79 +1,135 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import { FilterSection } from '@features/Filters/ui/FiltersSection'
 import { FILTERS_CONFIG } from '@features/Filters/config/filter.config'
-import { FilterValues } from '@shared/types/filters.types'
+import { useFilters } from '@features/Filters/lib/hooks'
+import { useMainCategories } from '@features/Filters/lib/useCategories'
+import type { FilterSection as FilterSectionType } from '@shared/types/filters.types'
 
 import './Filters.css'
 
 export const Filters = () => {
-	const [filterValues, setFilterValues] = useState<FilterValues>(() => {
-		// Инициализируем значения по умолчанию из конфига
-		const initialValues: FilterValues = {}
-		FILTERS_CONFIG.forEach((section) => {
-			section.filters.forEach((filter) => {
-				if (filter.default !== undefined) {
-					initialValues[filter.id] = filter.default
+	const {
+		filterValues,
+		hasUnsavedChanges,
+		setFilterValues,
+		applyFilters,
+		resetFilters,
+		clearFilters,
+	} = useFilters()
+
+	const { data: mainCategories, isLoading: categoriesLoading } =
+		useMainCategories()
+
+	// Очищаем старые значения категорий при загрузке новых
+	useEffect(() => {
+		if (
+			mainCategories &&
+			mainCategories.length > 0 &&
+			filterValues.categories
+		) {
+			// Проверяем, есть ли выбранные категории из старого конфига (английские значения)
+			const oldCategoryValues = [
+				'clothing',
+				'shoes',
+				'equipment',
+				'accessories',
+			]
+			const hasOldValues = filterValues.categories.some((cat: string) =>
+				oldCategoryValues.includes(cat)
+			)
+
+			// Если есть старые значения и они не соответствуют новым категориям, очищаем
+			if (hasOldValues) {
+				const validCategories = mainCategories.map((cat) => cat.name)
+				const validSelectedCategories = (
+					filterValues.categories as string[]
+				).filter((cat: string) => validCategories.includes(cat))
+
+				if (validSelectedCategories.length !== filterValues.categories.length) {
+					setFilterValues({
+						...filterValues,
+						categories: validSelectedCategories,
+					})
 				}
-			})
-		})
-		return initialValues
-	})
+			}
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [mainCategories])
 
-	const handleFilterChange = (newValues: FilterValues) => {
-		setFilterValues(newValues)
-		// Здесь можно добавить логику отправки фильтров на сервер
-		console.log('Filter values changed:', newValues)
-	}
+	// Динамически обновляем конфиг с категориями
+	const filtersConfig = useMemo(() => {
+		// Преобразуем категории в формат фильтров (или пустой массив, если еще загружаются)
+		const categoryOptions = mainCategories
+			? mainCategories.map((category) => ({
+					value: category.name,
+					label: category.name,
+				}))
+			: []
 
-	const resetFilters = () => {
-		const resetValues: FilterValues = {}
-		FILTERS_CONFIG.forEach((section) => {
-			section.filters.forEach((filter) => {
-				if (filter.default !== undefined) {
-					resetValues[filter.id] = filter.default
+		// Обновляем секцию категорий
+		return FILTERS_CONFIG.map((section) => {
+			if (section.id === 'category') {
+				return {
+					...section,
+					filters: section.filters.map((filter) => {
+						if (filter.id === 'categories') {
+							return {
+								...filter,
+								// Используем загруженные категории или пустой массив пока загружаются
+								options: categoryOptions,
+							}
+						}
+						return filter
+					}),
 				}
-			})
-		})
-		setFilterValues(resetValues)
-	}
+			}
+			return section
+		}) as FilterSectionType[]
+	}, [mainCategories, categoriesLoading])
 
-	const applyFilters = () => {
-		console.log('Applying filters:', filterValues)
-	}
+	// Синхронизация при монтировании
+	useEffect(() => {
+		// Инициализация уже происходит в useFilters
+	}, [])
 	return (
-		<aside className="sticky top-4 w-70 h-screen p-6 self-start shadow-lg bg-white flex flex-col">
-			<h2 className="text-xl font-bold mb-6 text-gray-900">ФИЛЬТРЫ</h2>
+		<aside className="sticky top-4 w-70 max-h-[calc(100vh-2rem)] pt-3 p-6 self-start shadow-lg bg-white flex flex-col">
+			{/* <h2 className="text-xl font-bold mb-6 text-gray-900">ФИЛЬТРЫ</h2> */}
 
-			<div className="flex-1 overflow-y-scroll space-y-2 filters-scroll">
+			<div className="flex-1 overflow-y-scroll space-y-2 filters-scroll min-h-0">
 				<div className="filters-content">
-					{FILTERS_CONFIG.map((section) => (
+					{filtersConfig.map((section) => (
 						<FilterSection
 							key={section.id}
 							section={section}
 							values={filterValues}
-							onValuesChange={handleFilterChange}
+							onValuesChange={setFilterValues}
 						/>
 					))}
 				</div>
 			</div>
 
 			{/* Fade-out эффект */}
-			<div className="relative">
+			<div className="relative flex-shrink-0">
 				<div className="absolute -top-12 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent pointer-events-none z-10"></div>
 			</div>
 
 			{/* Фиксированные кнопки внизу */}
-			<div className="mt-4 pb-4 space-y-3 flex-shrink-0">
+			<div className="pt-4 space-y-3 flex-shrink-0 border-t border-gray-200 bg-white">
 				<button
 					onClick={applyFilters}
-					className="w-full bg-burgundy text-white py-3 px-4 rounded-md hover:bg-burgundy/90 transition-colors duration-200 font-medium"
+					disabled={!hasUnsavedChanges}
+					className={`w-full py-3 px-4 rounded-md transition-colors duration-200 font-medium ${
+						hasUnsavedChanges
+							? 'bg-burgundy text-white hover:bg-burgundy/90'
+							: 'bg-gray-300 text-gray-500 cursor-not-allowed'
+					}`}
 				>
 					Показать
 				</button>
 				<button
-					onClick={resetFilters}
+					onClick={clearFilters}
 					className="w-full bg-white text-gray-700 py-3 px-4 rounded-md border border-gray-300 hover:bg-gray-50 transition-colors duration-200 font-medium"
 				>
 					Сбросить все фильтры

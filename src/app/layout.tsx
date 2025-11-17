@@ -1,5 +1,9 @@
 import type { Metadata } from 'next'
 import '../styles/globals.css'
+import { QueryProvider } from './providers/QueryProvider'
+import { AuthModalProvider } from '@/shared/lib/contexts/AuthModalContext'
+import { SearchProvider } from '@/shared/lib/contexts/SearchContext'
+import { AuthModalWrapper } from '@/shared/ui/AuthModalWrapper'
 
 export const metadata: Metadata = {
 	title: 'ProSport',
@@ -13,7 +17,16 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body>{children}</body>
+			<body>
+				<QueryProvider>
+					<AuthModalProvider>
+						<SearchProvider>
+							{children}
+							<AuthModalWrapper />
+						</SearchProvider>
+					</AuthModalProvider>
+				</QueryProvider>
+			</body>
 		</html>
 	)
 }

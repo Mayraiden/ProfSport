@@ -64,9 +64,6 @@ export const CatalogModal = ({ isOpen, onClose }: ICatalogModalProps) => {
 					>
 						смотреть все товары
 					</Link>
-					<Link className="text-blue" href={'/catalog'}>
-						смотреть выбранное
-					</Link>
 				</div>
 			</aside>
 		</>

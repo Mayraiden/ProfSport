@@ -1,7 +1,6 @@
 'use client'
 
 import { ReactNode } from 'react'
-import { IInput } from './IInput'
 import { ErrorMessage } from './ErrorMessage'
 
 interface FormFieldProps {
@@ -18,12 +17,14 @@ export const FormField = ({
 	className = '',
 }: FormFieldProps) => {
 	return (
-		<div className={`relative h-13 bg-[#F0F4F8] rounded-md ${className}`}>
-			<label className="absolute top-2 left-3 text-xs text-[#A0A4A8] font-normal">
-				{label}
-			</label>
-			<div className="absolute top-2 left-0 right-3">{children}</div>
-			<ErrorMessage message={error} className="absolute top-12 left-3" />
+		<div className={`relative flex flex-col ${className}`}>
+			<div className="relative bg-[#F0F4F8] rounded-md">
+				<label className="absolute top-3 left-3 text-xs text-[#A0A4A8] font-normal pointer-events-none z-10">
+					{label}
+				</label>
+				<div className="pt-8 pb-3 px-3">{children}</div>
+			</div>
+			<ErrorMessage message={error} className="mt-1" />
 		</div>
 	)
 }

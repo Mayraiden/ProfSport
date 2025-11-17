@@ -1,26 +1,26 @@
 'use client'
 
+//ui
+import { FormField } from '@/shared/ui/FormField'
+import { IInput } from '@/shared/ui/IInput'
+import { AuthButton } from '@/shared/ui/AuthButton'
+import { PasswordInput } from '@/shared/ui/PasswordInput'
+import { Checkbox } from '@/shared/ui/Checkbox'
+
+//hooks
+import { useRouter } from 'next/navigation'
+import { useRegister } from '../lib/queries'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
 	registerSchema,
 	type RegisterFormData,
 } from '@/shared/lib/validations/auth'
-import { IInput } from '@/shared/ui/IInput'
-import { AuthButton } from '@/shared/ui/AuthButton'
-import { FormField } from '@/shared/ui/FormField'
-import { PasswordInput } from '@/shared/ui/PasswordInput'
-import { Checkbox } from '@/shared/ui/Checkbox'
+import { useAuthStore } from '../model/store'
 
-interface RegisterFormProps {
-	onSubmit: (data: RegisterFormData) => void
-	loading?: boolean
-}
-
-export const RegisterForm = ({
-	onSubmit,
-	loading = false,
-}: RegisterFormProps) => {
+//component
+export const RegisterForm = () => {
+	//react-hook-form
 	const {
 		register,
 		handleSubmit,
@@ -30,16 +30,34 @@ export const RegisterForm = ({
 	} = useForm<RegisterFormData>({
 		resolver: zodResolver(registerSchema),
 		defaultValues: {
+			name: '',
+			phone: '',
+			email: '',
+			password: '',
+			confirmPassword: '',
 			agreement: false,
 			privacy: false,
 		},
 	})
 
+	//register logic
+	const { mutate: registerUser, isPending } = useRegister()
+	const { error } = useAuthStore()
+	const router = useRouter()
+
 	const agreement = watch('agreement')
 	const privacy = watch('privacy')
 
+	const handleRegister = (data: RegisterFormData) => {
+		registerUser(data, {
+			onSuccess: () => {
+				router.push('/profile')
+			},
+		})
+	}
+
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+		<form onSubmit={handleSubmit(handleRegister)} className="space-y-3">
 			{/* Name */}
 			<FormField label="Имя" error={errors.name?.message}>
 				<IInput
@@ -118,10 +136,13 @@ export const RegisterForm = ({
 
 			{/* Submit Button */}
 			<div className="pt-4">
-				<AuthButton type="submit" loading={loading}>
+				<AuthButton type="submit" loading={isPending}>
 					Зарегистрироваться
 				</AuthButton>
 			</div>
+
+			{/* Error Display */}
+			{error && <div className="text-red-500 text-sm mt-2">{error}</div>}
 		</form>
 	)
 }

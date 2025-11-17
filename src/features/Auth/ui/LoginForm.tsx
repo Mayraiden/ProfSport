@@ -2,18 +2,20 @@
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 import { loginSchema, type LoginFormData } from '@/shared/lib/validations/auth'
 import { IInput } from '@/shared/ui/IInput'
 import { AuthButton } from '@/shared/ui/AuthButton'
 import { FormField } from '@/shared/ui/FormField'
 import { PasswordInput } from '@/shared/ui/PasswordInput'
+import { useLogin } from '../lib/queries'
+import { useAuthStore } from '../model/store'
 
-interface LoginFormProps {
-	onSubmit: (data: LoginFormData) => void
-	loading?: boolean
-}
+export const LoginForm = () => {
+	const router = useRouter()
+	const { mutate: loginUser, isPending } = useLogin()
+	const { error } = useAuthStore()
 
-export const LoginForm = ({ onSubmit, loading = false }: LoginFormProps) => {
 	const {
 		register,
 		handleSubmit,
@@ -22,8 +24,16 @@ export const LoginForm = ({ onSubmit, loading = false }: LoginFormProps) => {
 		resolver: zodResolver(loginSchema),
 	})
 
+	const handleLogin = (data: LoginFormData) => {
+		loginUser(data, {
+			onSuccess: () => {
+				router.push('/profile')
+			},
+		})
+	}
+
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+		<form onSubmit={handleSubmit(handleLogin)} className="space-y-3">
 			{/* Email */}
 			<FormField label="Email" error={errors.email?.message}>
 				<IInput
@@ -41,10 +51,13 @@ export const LoginForm = ({ onSubmit, loading = false }: LoginFormProps) => {
 
 			{/* Submit Button */}
 			<div className="pt-4">
-				<AuthButton type="submit" loading={loading}>
+				<AuthButton type="submit" loading={isPending}>
 					Войти
 				</AuthButton>
 			</div>
+
+			{/* Error Display */}
+			{error && <div className="text-red-500 text-sm mt-2">{error}</div>}
 		</form>
 	)
 }

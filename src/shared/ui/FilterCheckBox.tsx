@@ -30,7 +30,7 @@ export const IFilterCheckbox = ({
 						key={option.value}
 						checked={value.includes(option.value)}
 						onChange={() => handleOptionChange(option.value)}
-						size="sm"
+						size="md"
 					>
 						{option.label}
 					</Checkbox>

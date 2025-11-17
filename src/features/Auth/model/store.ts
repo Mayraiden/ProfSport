@@ -11,7 +11,7 @@ export const useAuthStore = create<IUserStoreType>()(
 			isLoading: false,
 			error: null,
 
-			setUser: (user) => set({ user }),
+			setUser: (user) => set({ user, isAuthenticated: !!user }),
 			setJwt: (jwt: string | null) => set({ jwt }),
 			setLoading: (isLoading: boolean) => set({ isLoading }),
 			setError: (error: string | null) => set({ error }),

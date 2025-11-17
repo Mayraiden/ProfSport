@@ -1,8 +1,16 @@
 export type IUserType = {
+	id: number
 	username: string
-	identifier: string
-	name: string
-	phone: string
+	email: string
+	firstName: string | null
+	lastName: string | null
+	phone: string | null
+	provider: string
+	confirmed: boolean
+	blocked: boolean
+	createdAt: string
+	updatedAt: string
+	publishedAt: string
 }
 
 export type IUserStoreType = {

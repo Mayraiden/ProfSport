@@ -133,7 +133,6 @@ export const CartItemCard = ({
 					{/* Кнопка избранного */}
 					<FavoriteButton
 						productId={product.id}
-						checkOnMount={false}
 						className="w-8 h-8 flex items-center justify-center bg-[#F2E8EA] rounded-[2.87px] hover:bg-[#F2E8EA]/80 transition-colors"
 					/>
 

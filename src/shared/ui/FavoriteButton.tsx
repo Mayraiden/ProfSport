@@ -10,7 +10,7 @@ import { refreshFavoritesCount } from '@/features/Favorites/lib/useFavoritesCoun
 type FavoriteButtonProps = {
 	productId?: string
 	className?: string
-	checkOnMount?: boolean // Флаг для проверки статуса при загрузке (по умолчанию false для каталога)
+	checkOnMount?: boolean // Флаг для проверки статуса при загрузке (по умолчанию true - всегда проверяем)
 	initialFavorite?: boolean // Начальное состояние избранного (например, для страницы избранного)
 	onToggle?: () => void // Callback при изменении избранного (для обновления списка на странице избранного)
 }
@@ -18,7 +18,7 @@ type FavoriteButtonProps = {
 export const FavoriteButton = ({
 	productId,
 	className = '',
-	checkOnMount = false, // По умолчанию не проверяем при загрузке
+	checkOnMount = true, // По умолчанию проверяем при загрузке для правильного отображения состояния
 	initialFavorite = false, // Начальное состояние избранного
 	onToggle, // Callback при изменении избранного
 }: FavoriteButtonProps) => {
@@ -47,16 +47,15 @@ export const FavoriteButton = ({
 
 		// Если checkOnMount не включен или нет productId, не проверяем
 		if (!checkOnMount || !productId) {
-			if (!checkOnMount) {
-				setIsFavorite(false)
-				checkedProductIdRef.current = productId
-			}
+			// Не сбрасываем состояние, если checkOnMount выключен - оставляем текущее
+			checkedProductIdRef.current = productId
 			return
 		}
 
-		// Если пользователь не авторизован или нет JWT, ждем загрузки store
+		// Если пользователь не авторизован или нет JWT, не проверяем и не сбрасываем состояние
+		// (ждем авторизации или загрузки store)
 		if (!isAuthenticated || !jwt) {
-			setIsFavorite(false)
+			// Не сбрасываем состояние - оставляем текущее или initialFavorite
 			return
 		}
 
@@ -72,12 +71,6 @@ export const FavoriteButton = ({
 			.checkFavorite(productId, jwt)
 			.then((result) => {
 				if (!cancelled) {
-					console.log('[FavoriteButton] Check result:', {
-						productId,
-						result,
-						isAuthenticated,
-						hasJwt: !!jwt,
-					})
 					setIsFavorite(result)
 					checkedProductIdRef.current = productId
 				}
@@ -91,7 +84,8 @@ export const FavoriteButton = ({
 						isAuthenticated,
 						hasJwt: !!jwt,
 					})
-					setIsFavorite(false)
+					// При ошибке проверки не сбрасываем состояние - оставляем текущее
+					// Только помечаем, что проверка была выполнена
 					checkedProductIdRef.current = productId
 				}
 			})

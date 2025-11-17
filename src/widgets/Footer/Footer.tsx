@@ -10,11 +10,10 @@ export const Footer = () => {
 					<Link href="/" className="h-10 flex items-center gap-2">
 						<Image
 							src="/logo.svg"
-							width={20}
+							width={250}
 							height={20}
-							alt="логотип профспорт"
+							alt="логотип BORKS"
 						/>
-						<span className="text-xl font-bold text-white">ПРОФСПОРТ</span>
 					</Link>
 					<p className="w-80 text-white/60">
 						ООО &laquo;РУСПРОЕКТ&raquo;, ИНН: 9715238760, ОГРН: 1167746088586,
@@ -39,13 +38,13 @@ export const Footer = () => {
 				<div>
 					<ul className="flex gap-3">
 						<li>
-							<Link href="/">Политика конфиденциальности</Link>
+							<Link href="/privacy">Политика конфиденциальности</Link>
 						</li>
 						<li>
-							<Link href="/">Договор оферта</Link>
+							<Link href="/oferta">Договор оферта</Link>
 						</li>
 						<li>
-							<Link href="/">Файлы куки</Link>
+							<Link href="/cookies">Файлы куки</Link>
 						</li>
 					</ul>
 				</div>

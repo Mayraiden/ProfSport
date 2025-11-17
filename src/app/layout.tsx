@@ -4,6 +4,7 @@ import { QueryProvider } from './providers/QueryProvider'
 import { AuthModalProvider } from '@/shared/lib/contexts/AuthModalContext'
 import { SearchProvider } from '@/shared/lib/contexts/SearchContext'
 import { AuthModalWrapper } from '@/shared/ui/AuthModalWrapper'
+import { CookieBanner } from '@/shared/ui/CookieBanner'
 
 export const metadata: Metadata = {
 	title: 'ProSport',
@@ -23,6 +24,7 @@ export default function RootLayout({
 						<SearchProvider>
 							{children}
 							<AuthModalWrapper />
+							<CookieBanner />
 						</SearchProvider>
 					</AuthModalProvider>
 				</QueryProvider>

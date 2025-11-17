@@ -12,7 +12,7 @@ type ItemCardProps = {
 	product?: Product
 	onClick?: () => void
 	className?: string
-	checkFavoriteOnMount?: boolean // Флаг для проверки статуса избранного при загрузке
+	checkFavoriteOnMount?: boolean // Флаг для проверки статуса избранного при загрузке (по умолчанию true)
 	isFavorite?: boolean // Начальное состояние избранного (для страницы избранного)
 	onFavoriteToggle?: () => void // Callback при изменении избранного (для обновления списка на странице избранного)
 }
@@ -23,7 +23,7 @@ export const ItemCard = memo<ItemCardProps>(
 		product,
 		onClick,
 		className = '',
-		checkFavoriteOnMount = false,
+		checkFavoriteOnMount = true, // По умолчанию проверяем статус избранного
 		isFavorite = false,
 		onFavoriteToggle,
 	}) => {

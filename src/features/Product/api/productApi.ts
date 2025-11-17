@@ -397,4 +397,52 @@ export const productApi = {
 			throw error
 		}
 	},
+
+	async getPopularProducts(limit = 15): Promise<Product[]> {
+		try {
+			const response = await fetch(
+				`${API_URL}/api/products/popular?limit=${limit}`
+			)
+
+			if (!response.ok) {
+				throw new Error(`API error: ${response.status}`)
+			}
+
+			const data: ApiResponse<ApiProduct[]> | ApiErrorResponse =
+				await response.json()
+
+			if (!data.success) {
+				throw new Error(data.message || data.error || 'Failed to fetch popular products')
+			}
+
+			return data.data.map(transformApiProduct)
+		} catch (error) {
+			console.error('Error fetching popular products:', error)
+			throw error
+		}
+	},
+
+	async getNewProducts(limit = 15): Promise<Product[]> {
+		try {
+			const response = await fetch(
+				`${API_URL}/api/products/new?limit=${limit}`
+			)
+
+			if (!response.ok) {
+				throw new Error(`API error: ${response.status}`)
+			}
+
+			const data: ApiResponse<ApiProduct[]> | ApiErrorResponse =
+				await response.json()
+
+			if (!data.success) {
+				throw new Error(data.message || data.error || 'Failed to fetch new products')
+			}
+
+			return data.data.map(transformApiProduct)
+		} catch (error) {
+			console.error('Error fetching new products:', error)
+			throw error
+		}
+	},
 }

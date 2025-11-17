@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
@@ -9,6 +9,8 @@ import 'swiper/css/navigation'
 import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react/ssr'
 
 import { ItemCard } from '@/shared/ui/ItemCard'
+import { productApi } from '@/features/Product/api/productApi'
+import type { Product } from '@/shared/types'
 
 type ISuggestingProps = {
 	title: string
@@ -16,18 +18,46 @@ type ISuggestingProps = {
 
 export const Suggesting = ({ title }: ISuggestingProps) => {
 	const [swiperRef, setSwiperRef] = useState<SwiperType | null>(null)
+	const [products, setProducts] = useState<Product[]>([])
+	const [loading, setLoading] = useState(true)
 	const goToPrev = () => swiperRef?.slidePrev()
 	const goToNext = () => swiperRef?.slideNext()
 
-	const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-	const isLoop = items.length > 5
+	useEffect(() => {
+		const loadProducts = async () => {
+			try {
+				setLoading(true)
+				let fetchedProducts: Product[] = []
+
+				if (title === 'Хиты продаж') {
+					fetchedProducts = await productApi.getPopularProducts(15)
+				} else if (title === 'Новинки') {
+					fetchedProducts = await productApi.getNewProducts(15)
+				} else {
+					// Для других блоков можно добавить логику позже
+					fetchedProducts = []
+				}
+
+				setProducts(fetchedProducts)
+			} catch (error) {
+				console.error(`Error loading products for "${title}":`, error)
+				setProducts([])
+			} finally {
+				setLoading(false)
+			}
+		}
+
+		loadProducts()
+	}, [title])
+
+	const isLoop = products.length > 5
 
 	return (
 		<section className="w-full pt-15 relative">
 			<h3 className="pl-20 text-3xl font-bold mb-4">{title}</h3>
 			<div className="w-full h-fit py-4">
 				<Swiper
-					key={items.length}
+					key={products.length}
 					onSwiper={setSwiperRef}
 					spaceBetween={12}
 					slidesPerView={5}
@@ -49,11 +79,27 @@ export const Suggesting = ({ title }: ISuggestingProps) => {
 						1440: { slidesPerView: 5 },
 					}}
 				>
-					{items.map((_, index) => (
-						<SwiperSlide key={index} className="max-w-59">
-							<ItemCard />
+					{loading ? (
+						// Показываем заглушки во время загрузки
+						Array.from({ length: 5 }).map((_, index) => (
+							<SwiperSlide key={`loading-${index}`} className="max-w-59">
+								<ItemCard />
+							</SwiperSlide>
+						))
+					) : products.length > 0 ? (
+						products.map((product) => (
+							<SwiperSlide key={product.id} className="max-w-59">
+								<ItemCard product={product} />
+							</SwiperSlide>
+						))
+					) : (
+						// Если товаров нет, показываем заглушку
+						<SwiperSlide className="max-w-59">
+							<div className="w-full h-64 flex items-center justify-center text-gray-500">
+								Товары не найдены
+							</div>
 						</SwiperSlide>
-					))}
+					)}
 				</Swiper>
 			</div>
 
